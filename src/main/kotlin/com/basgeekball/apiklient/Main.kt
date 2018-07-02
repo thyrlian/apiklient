@@ -5,4 +5,5 @@ fun main(args: Array<String>) {
     val apiClient = ApiClient()
     apiClient.get()
     println("==================================================")
+    Thread.sleep(1000L)
 }

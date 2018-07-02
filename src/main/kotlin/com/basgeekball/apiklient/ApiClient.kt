@@ -11,13 +11,20 @@ class ApiClient {
     }
 
     fun get() {
-        "/get".httpGet().responseString { request, response, result ->
+        val path = "/get"
+        println("GET $path")
+        path.httpGet().responseString { request, response, result ->
             when (result) {
                 is Result.Failure -> {
                     val ex = result.getException()
+                    println("-- Fail --")
+                    println(ex.message)
                 }
                 is Result.Success -> {
                     val data = result.get()
+                    println("-- Success --")
+                    println(response.statusCode)
+                    println(data)
                 }
             }
         }
