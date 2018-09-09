@@ -1,32 +1,32 @@
 package com.basgeekball.apiklient
 
 import com.basgeekball.apiklient.misc.Constants
-import com.github.kittinunf.fuel.core.FuelManager
-import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.result.Result
+import org.http4k.client.ApacheAsyncClient
+import org.http4k.core.Method
+import org.http4k.core.Request
+import kotlin.concurrent.thread
 
 class ApiClient {
-    init {
-        FuelManager.instance.basePath = Constants.BASE_URL
-    }
+    val asyncClient = ApacheAsyncClient()
 
     fun get() {
-        val path = "/get"
-        println("GET $path")
-        path.httpGet().responseString { request, response, result ->
-            when (result) {
-                is Result.Failure -> {
-                    val ex = result.getException()
-                    println("-- Fail --")
-                    println(ex.message)
-                }
-                is Result.Success -> {
-                    val data = result.get()
-                    println("-- Success --")
-                    println(response.statusCode)
-                    println(data)
-                }
-            }
+        asyncClient(Request(Method.GET, Constants.BASE_URL + "/get")) {
+            println(it.status)
+            println(it.bodyString())
+        }
+    }
+
+    fun getMore() {
+        asyncClient(Request(Method.GET, Constants.BASE_URL + "/get").query("keyboard", "HHKB")) {
+            println(it.status)
+            println(it.bodyString())
+        }
+    }
+
+    fun close() {
+        thread {
+            Thread.sleep(1000)
+            asyncClient.close()
         }
     }
 }
