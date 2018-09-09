@@ -55,10 +55,12 @@ fabric.properties
 ### Intellij Patch ###
 # Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
 
-# *.iml
-# modules.xml
-# .idea/misc.xml
-# *.ipr
+.idea/
+*.iml
+modules.xml
+.idea/misc.xml
+*.ipr
+local.properties
 
 # Sonarlint plugin
 .idea/sonarlint
